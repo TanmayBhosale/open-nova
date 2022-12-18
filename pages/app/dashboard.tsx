@@ -9,6 +9,8 @@ import Heatmap from "../../components/Heatmap"
 import { Line } from "react-chartjs-2"
 import CustomBar from "../../components/CustomBar"
 import { useEffect } from "react"
+import { getTokenFromCookie } from "../../helpers/tokens"
+import { GetServerSidePropsContext } from "next"
 
 
 type DashboardProps = {
@@ -120,7 +122,7 @@ const Dashboard = ({consitency} : DashboardProps)=>{
     )
 }
 
-export async function getServerSideProps(){
+export async function getServerSideProps({req,res}: GetServerSidePropsContext){
     const start = new Date(2022,0,12)
     const end = new Date(2022,11,30)
     const consitency : ConsistencyModel[] = [];
@@ -129,6 +131,7 @@ export async function getServerSideProps(){
         consitency.push({date:`${start.getFullYear()}/${start.getMonth()}/${start.getDate()}`,count: Math.floor(Math.random()*10)})
         start.setDate(start.getDate()+1)
     }
+    console.log(getTokenFromCookie("access",req,res))
     return{
         props: {
             consitency
