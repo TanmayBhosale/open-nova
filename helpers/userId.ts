@@ -1,9 +1,16 @@
-function saveUserId(id:string){
-    localStorage.setItem("open_nova_user_id",id)
+import {setCookie , getCookie} from "cookies-next"
+
+function saveUserId(id:string,req:any,res:any){
+    // localStorage.setItem("open_nova_user_id",id)
+    setCookie("open_nova_user_id",id,{req,res})
+    
 }
 
-function getUserId(){
-    return localStorage.getItem("open_nova_user_id")
+function getUserId(req?:any,res?:any){
+    // return localStorage.getItem("open_nova_user_id")
+    const id = getCookie("open_nova_user_id",{req,res})
+    if(id == undefined) return null
+    return <string>id
 }
 
 export {saveUserId,getUserId}

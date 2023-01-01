@@ -10,7 +10,7 @@ const Navbar = () => {
 
   useEffect(() => {
     setRoute(router.route.split("/")[2]);
-    console.log(route);
+    // console.log(route);
   }, [router.route]);
 
   const checkIfActive = (item: string): string => {

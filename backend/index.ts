@@ -56,7 +56,9 @@ function getUserFromDb(userId:string){
             if(!res.exists()){
                 return resolve(null)
             }
-            return resolve(<UserModel>res.data())
+            const user:UserModel = <UserModel>res.data()
+            user.id = res.id
+            return resolve(user)
         }catch(e){
             const error: CustomError = {message : "Unable to get user from db",err:e}
             reject(error)
@@ -64,4 +66,4 @@ function getUserFromDb(userId:string){
     })
 }
 
-export {createOrUpdateUser}
+export {createOrUpdateUser,getUserFromDb}
