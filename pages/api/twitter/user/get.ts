@@ -1,22 +1,20 @@
 import axios from "axios"
 import {NextApiRequest, NextApiResponse} from "next"
-import { createOrUpdateUser } from "../../../backend"
-import { saveUserId } from "../../../helpers/userId"
-import UserModel from "../../../models/UserModel"
+import { createOrUpdateUser } from "../../../../backend"
+import { saveUserId } from "../../../../helpers/userId"
+import UserModel from "../../../../models/UserModel"
 
 export default async function handler(req:NextApiRequest,res:NextApiResponse){
     console.log("req@ get-twitter-user")
     try{
-        const accessToken = req.query["accessToken"]!.toString()
-        const refreshToken = req.query["refreshToken"]!.toString()
-        const twitterUser = await getTwitterUser(accessToken,refreshToken,req,res)
-        res.status(200).json({user:twitterUser})
+        const accessToken = req.headers["twitter_access_token"]
+        const refreshToken = req.headers["twitter_refresh_token"]
+        // const twitterUser = await getTwitterUser(accessToken,refreshToken,req,res)
+        console.log(req.headers)
+        res.status(200).json({user:"hi"})
     }catch(e:any){
-        if(e.response.status == 401){
+        console.log(e)
             res.status(404).json({err:"err"})
-        }else{
-            res.status(404).json({err:"err"})
-        }
     }
 }
 

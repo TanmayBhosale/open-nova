@@ -1,7 +1,6 @@
 import {useRouter} from "next/router"
 import { useEffect, useRef } from "react"
 import Router from "next/router"
-import twitterClient from "../../twitter/backend"
 import getBaseUrl from "../../helpers/getBaseUrl"
 import TwitterTokens from "../../types/TwitterTokens"
 import CustomError from "../../types/CustomError"
@@ -11,8 +10,11 @@ import { createOrUpdateUser } from "../../backend"
 import { saveUserId } from "../../helpers/userId"
 import { saveTokenToCookie } from "../../helpers/tokens"
 import { GetServerSidePropsContext } from "next"
-import { getTokensFromTwitter } from "../api/twitter/get-tokens"
-import { getTwitterUser } from "../api/twitter/get-user"
+// import { getTokensFromTwitter } from "../api/twitter/get-tokens"
+// import { getTwitterUser } from "../api/twitter/get-user"
+import axiosFe from "../../axios/fe"
+import { getTokensFromTwitter } from "../api/twitter/tokens/get"
+import { getTwitterUser } from "../api/twitter/user/get"
 
 type TokenProps = {
     tokens : TwitterTokens | null
@@ -35,13 +37,16 @@ const Token = ({tokens,error}:TokenProps)=>{
 
 export async function getServerSideProps({req,res , query} : GetServerSidePropsContext){
     let tokens: TwitterTokens | null = null
-    let error : CustomError | null = null
+    let error : string | null = null
     let user: UserModel | null
     try{
         tokens = await getTokensFromTwitter(query,req,res)
+        console.log(tokens)
         user = await getTwitterUser(tokens.accessToken,tokens.refreshToken,req,res)
     }catch(e:any){
-        error = {message : e.message, err: JSON.stringify(e.err)}
+        console.log(e)
+        error = "err"
+        //{message : e.message, err: JSON.stringify(e.err)}
     }
     
     return{

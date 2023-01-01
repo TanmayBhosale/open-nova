@@ -6,9 +6,11 @@ function saveUserId(id:string,req:any,res:any){
     
 }
 
-function getUserId(req:any,res:any){
+function getUserId(req?:any,res?:any){
     // return localStorage.getItem("open_nova_user_id")
     const id = getCookie("open_nova_user_id",{req,res})
+    if(id == undefined) return null
+    return <string>id
 }
 
 export {saveUserId,getUserId}
