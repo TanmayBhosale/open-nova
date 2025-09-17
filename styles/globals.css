@@ -13,7 +13,7 @@
     @apply text-white;
   }
   .theme-text-accent {
-    @apply text-white opacity-50;
+    @apply text-white text-opacity-50;
   }
   .active-nav-link {
     @apply bg-primary;

@@ -1,13 +1,15 @@
+import LeadGenNavbar from "./LeadGenNavbar"
 import Navbar from "./Navbar"
 
 type WithNavbarType = {
-    children : React.ReactNode
+    children : React.ReactNode,
+    navBarName : "app" | "leadGen"
 }
 
-const WithNavbar = ({ children } : WithNavbarType)=>{
+const WithNavbar = ({ children , navBarName } : WithNavbarType)=>{
     return(
         <div className="flex flex-row">
-            <Navbar />
+            {navBarName == "app" ? <Navbar /> : <LeadGenNavbar />}
             <div className="w-1/5" />
             {children}
         </div>

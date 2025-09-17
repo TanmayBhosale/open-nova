@@ -49,7 +49,7 @@ const Dashboard = ({consitency,user} : DashboardProps)=>{
     })
 
     return(
-        <WithNavbar>
+        <WithNavbar navBarName="app">
             <div className="mx-10 mt-3 w-full flex flex-row">
                 <div className="w-2/3">
                     <section className="w-full h-10">

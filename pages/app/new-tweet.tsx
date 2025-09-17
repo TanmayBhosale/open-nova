@@ -6,7 +6,7 @@ const NewTweet = () => {
   const [threadCount, setThreadCount] = useState(0);
 
   return (
-    <WithNavbar>
+    <WithNavbar navBarName="app">
       <div className="w-4/5 px-5 my-4">
         <h4 className="theme-text text-2xl font-semibold">New Tweet</h4>
         <div className="flex flex-col items-center content-start mt-5 mb-28">

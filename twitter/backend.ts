@@ -215,6 +215,35 @@ function getTweets(accessToken:string,refreshToken:string,twitterId:string,time?
     })
 }
 
+function searchUserV1(accessToken:string,refreshToken:string,keywords:string[]){
+    return new Promise(async(resolve,reject) => {
+        try{
+            if(!accessToken || !refreshToken) throw(<CustomError>{err:404,message:"no tokens found"})
+            const headers = {
+                "access_token":"AAAAAAAAAAAAAAAAAAAAAH2GkAEAAAAApYBltq0tLTGTCFlSxHw832Af0RA%3DEv3teFkKevZYoj1jZV7bFpRQiNTOjfPpq8Dkx6HYpX6PVGA8Rt",
+                "refresh_token":refreshToken
+            }
+            const res = await axiosBe.get("https://api.twitter.com/1.1/users/search.json",{
+                headers,
+                params:{
+                    q : keywords.join(",")
+                }
+            })
+            if(addTokensIfChanged(headers.access_token,headers.refresh_token,res.config)){
+                const {accessToken,refreshToken} = addTokensIfChanged(headers.access_token,headers.refresh_token,res.config)!
+                headers.access_token = accessToken
+                headers.refresh_token = refreshToken
+            }
+            console.log(res.headers)
+            resolve("")
+        }catch(e){
+            console.log(e)
+            reject(e)
+        }
+        
+    })
+}
+
 function getUpdatedUser(accessToken:string,refreshToken:string,userId:string){
     return new Promise<TwitterData<UserModel>>(async(resolve,reject) => {
         try{
@@ -249,6 +278,7 @@ function getUpdatedUser(accessToken:string,refreshToken:string,userId:string){
     })
 }
 
+
 function addTokensIfChanged(accessToken:string,refreshToken:string,config:AxiosRequestConfig<any>):TokenPair | null{
     if(refreshToken != config.headers!["refresh_token"] || accessToken != config.headers!["access_token"]){
         return <TokenPair>{
@@ -260,4 +290,5 @@ function addTokensIfChanged(accessToken:string,refreshToken:string,config:AxiosR
     return null
 }
 
-export {auth,getTokens,refreshAccessToken,getUser,getTweets,getUpdatedUser}
+
+export {auth,getTokens,refreshAccessToken,getUser,getTweets,getUpdatedUser,searchUserV1}

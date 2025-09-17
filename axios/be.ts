@@ -20,11 +20,12 @@ async(err)=> {
     console.log("retying...")
     const ogRequest = err.config
     const refreshToken = ogRequest.headers.refresh_token
-    // console.log(ogRequest.headers)
+    // console.log(err.response.status)
     if(err.response.status === 401 && !ogRequest._retry){
         ogRequest._retry = true
         try{
             const tokens = await refreshAccessToken(refreshToken)
+            console.log(tokens)
             ogRequest.headers.access_token = tokens.accessToken
             ogRequest.headers.refresh_token = tokens.refreshToken
             return axiosBe(ogRequest)
@@ -33,6 +34,7 @@ async(err)=> {
             return Promise.reject(e)
         }
     }
+    return Promise.reject()
     // console.log(err.response.status)
 })
 
